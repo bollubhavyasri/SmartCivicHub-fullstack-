@@ -1,0 +1,164 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Main Page</title>
+
+<!-- Icons -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+<style>
+    body {
+        margin: 0;
+        font-family: Arial, sans-serif;
+
+        /* Background Image */
+        background: url("{% static 'images/mainpagebg.png' %}") no-repeat center center/cover;
+
+        height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: white;
+    }
+
+    /* Dark overlay */
+    body::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0,0,0,0.4);
+        z-index: 0;
+    }
+
+    .container {
+        position: relative;
+        z-index: 1;
+        text-align: center;
+        max-width: 1000px;
+        width: 100%;
+        padding: 20px;
+    }
+
+    h1 {
+        font-size: 55px;
+        margin-bottom: 10px;
+    }
+
+    h3 {
+        font-size: 35px;
+        margin-bottom: 10px;
+        font-weight: normal;
+    }
+
+    h2 {
+        font-size: 22px;
+        font-weight: normal;
+        margin-bottom: 40px;
+    }
+
+    /* Stats */
+    .stats {
+        display: flex;
+        justify-content: space-around;
+        margin-bottom: 30px;
+        font-size: 18px;
+        font-weight: bold;
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+
+    .stat {
+        background: rgba(255,255,255,0.9);
+        color: black;
+        padding: 10px 20px;
+        border-radius: 10px;
+    }
+
+    /* Cards */
+    .grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        gap: 20px;
+    }
+
+    .card {
+        background: rgba(188, 252, 168, 0.9);
+        padding: 25px;
+        border-radius: 15px;
+        cursor: pointer;
+        transition: 0.3s;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        color: black;
+    }
+
+    .card:hover {
+        transform: translateY(-8px);
+    }
+
+    .icon {
+        font-size: 60px;
+        margin-bottom: 10px;
+    }
+
+    .complaint { color: #ffcc00; }
+    .track { color: #00d4ff; }
+    .emergency { color: #ff4d4d; }
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <!-- 🔥 HEADER -->
+    <h1>Welcome to SmartCivicHub</h1>
+
+    <h3>Smart Civic Issue Management Portal</h3>
+
+    <h2>Transparent | Fast | Citizen Friendly</h2>
+
+    <!-- 📊 STATS -->
+    <div class="stats">
+        <div class="stat">✔ Fast Response</div>
+        <div class="stat">✔ Secure Reporting</div>
+        <div class="stat">✔ 24/7 Access</div>
+    </div>
+
+    <!-- 🎯 ACTION CARDS -->
+    <div class="grid">
+
+        <div class="card" onclick="location.href='{% url 'submit' %}'">
+            <div class="icon complaint">
+                <i class="fa-solid fa-file-circle-plus"></i>
+            </div>
+            <h3>Submit Complaint</h3>
+            <p>Report issues instantly</p>
+        </div>
+
+        <div class="card" onclick="location.href='{% url 'dashboard' %}'">
+            <div class="icon track">
+                <i class="fa-solid fa-chart-line"></i>
+            </div>
+            <h3>Track Status</h3>
+            <p>Check complaint progress</p>
+        </div>
+
+        <div class="card" onclick="window.open('https://www.google.com/search?q=emergency+helpline+india')">
+            <div class="icon emergency">
+                <i class="fa-solid fa-triangle-exclamation"></i>
+            </div>
+            <h3>Emergency Help</h3>
+            <p>Quick helpline access</p>
+        </div>
+
+    </div>
+
+</div>
+
+</body>
+</html>

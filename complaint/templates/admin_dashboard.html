@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Admin Dashboard</title>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <style>
+        body {
+            font-family: Arial;
+            background: linear-gradient(135deg, #d1f34b, #236e4f, #2c5364);
+            margin: 0;
+        }
+
+        .header {
+            background: #203a43;
+            color: white;
+            padding: 15px;
+            text-align: center;
+        }
+
+        .container {
+            padding: 20px;
+        }
+
+        /* 🔥 Analytics Button */
+        .analytics-btn {
+            display: block;
+            margin: 20px auto;
+            padding: 14px 28px;
+            font-size: 16px;
+            font-weight: bold;
+            background: white;
+            color: #2c5364;
+            border: 2px solid #2c5364;
+            border-radius: 10px;
+            cursor: pointer;
+        }
+
+        .analytics-btn:hover {
+            background: #2c5364;
+            color: white;
+        }
+
+        /* Analytics section */
+        #analytics {
+            display: none;
+            margin: 20px 0;
+            padding: 20px;
+            background: white;
+            border-radius: 10px;
+        }
+
+        .cards {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+        }
+
+        .card {
+            padding: 15px;
+            border-radius: 10px;
+            color: white;
+            min-width: 150px;
+            text-align: center;
+        }
+
+        .total { background: #2c5364; }
+        .pending { background: orange; }
+        .progress { background: blue; }
+        .resolved { background: green; }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+        }
+
+        th, td {
+            padding: 12px;
+            border: 1px solid #ddd;
+            text-align: center;
+        }
+
+        th {
+            background: #2c5364;
+            color: white;
+        }
+
+        img {
+            width: 80px;
+        }
+
+        select, button {
+            padding: 5px;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="header">
+    <h2>Admin Dashboard - Complaints Management</h2>
+</div>
+
+<div class="container">
+
+<!-- 🔥 VIEW ANALYTICS BUTTON -->
+<button class="analytics-btn" onclick="toggleAnalytics()">
+📊 View Analytics
+</button>
+
+<!-- 📊 ANALYTICS SECTION -->
+<div id="analytics">
+
+    <div class="cards">
+        <div class="card total">
+            <h3>{{ total }}</h3>
+            <p>Total</p>
+        </div>
+
+        <div class="card pending">
+            <h3>{{ pending }}</h3>
+            <p>Pending</p>
+        </div>
+
+        <div class="card progress">
+            <h3>{{ in_progress }}</h3>
+            <p>In Progress</p>
+        </div>
+
+        <div class="card resolved">
+            <h3>{{ resolved }}</h3>
+            <p>Resolved</p>
+        </div>
+    </div>
+
+    <canvas id="chart" width="400" height="200"></canvas>
+
+</div>
+
+<!-- 📋 TABLE -->
+{% if complaints %}
+
+<table>
+    <tr>
+        <th>Title</th>
+        <th>Description</th>
+        <th>User</th>
+        <th>Department</th>
+        <th>Status</th>
+        <th>Image</th>
+        <th>Update</th>
+    </tr>
+
+    {% for c in complaints %}
+    <tr>
+
+        <td>{{ c.title }}</td>
+        <td>{{ c.description }}</td>
+        <td>{{ c.user.username }}</td>
+
+        <!-- Department = Organization -->
+        <td>{{ c.organization.name }}</td>
+
+        <td><b>{{ c.status }}</b></td>
+
+        <td>
+            {% if c.image %}
+                <img src="{{ c.image.url }}">
+            {% else %}
+                No Image
+            {% endif %}
+        </td>
+
+        <td>
+            <form method="POST" action="{% url 'update_status' c.id %}">
+                {% csrf_token %}
+
+                <select name="status">
+                    <option value="pending" {% if c.status == "pending" %}selected{% endif %}>Pending</option>
+                    <option value="in_progress" {% if c.status == "in_progress" %}selected{% endif %}>In Progress</option>
+                    <option value="resolved" {% if c.status == "resolved" %}selected{% endif %}>Resolved</option>
+                </select>
+
+                <button type="submit">Update</button>
+            </form>
+        </td>
+
+    </tr>
+    {% endfor %}
+
+</table>
+
+{% else %}
+    <h3 style="text-align:center;">No complaints found.</h3>
+{% endif %}
+
+</div>
+
+<!-- 🔥 SCRIPT -->
+<script>
+function toggleAnalytics() {
+    var x = document.getElementById("analytics");
+    if (x.style.display === "none" || x.style.display === "") {
+        x.style.display = "block";
+    } else {
+        x.style.display = "none";
+    }
+}
+
+const ctx = document.getElementById('chart');
+
+new Chart(ctx, {
+    type: 'bar',
+    data: {
+        labels: ['Pending', 'In Progress', 'Resolved'],
+        datasets: [{
+            label: 'Complaints',
+            data: [
+                {{ pending }},
+                {{ in_progress }},
+                {{ resolved }}
+            ],
+            backgroundColor: ['orange', 'blue', 'green']
+        }]
+    }
+});
+</script>
+
+</body>
+</html>

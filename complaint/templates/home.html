@@ -1,0 +1,116 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>CivicSense</title>
+
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial;
+            background: url("{% static 'images/bg.png' %}") no-repeat center center/cover;
+            height: 100vh;
+            overflow: hidden;
+            color: rgb(0, 0, 0);
+        }
+
+        
+
+        /* Center content */
+        .content {
+            position: relative;
+            z-index: 2;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+
+        /* Title typing effect */
+        .title {
+            font-size: 55px;
+            font-weight: bold;
+            color: #000000;
+            white-space: nowrap;
+            overflow: hidden;
+            border-right: 3px solid rgb(0, 0, 0);
+            width: 0;
+            animation: typing 3s steps(20, end) forwards;
+        }
+
+        @keyframes typing {
+            from { width: 0 }
+            to { width: 100% }
+        }
+
+        /* Slogan animation */
+        .slogan {
+            margin-top: 20px;
+            font-size: 20px;
+            opacity: 0;
+            transform: translateX(-100px);
+            animation: slideIn 2s ease forwards;
+            animation-delay: 2s;
+        }
+
+        @keyframes slideIn {
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        /* Buttons */
+        .btn {
+            margin-top: 30px;
+        }
+
+        .btn a {
+            text-decoration: none;
+        }
+
+        button {
+            padding: 12px 25px;
+            margin: 10px;
+            border: none;
+            background: #00c6ff;
+            color: black;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        button:hover {
+            background: #0072ff;
+            color: white;
+        }
+
+    </style>
+</head>
+
+<body>
+
+<div class="overlay"></div>
+
+<div class="content">
+
+    <!-- Animated Title -->
+    <div class="title">Welcome to SmartCivicHub</div>
+
+    <!-- Sliding slogan -->
+    <div class="slogan">
+        Empowering Citizens • Improving Communities • Building Better Governance
+    </div>
+
+    <!-- Buttons -->
+    <div class="btn">
+        <a href="/login/"><button>Login</button></a>
+        <a href="/register/"><button>Register</button></a>
+    </div>
+
+</div>
+
+</body>
+</html>

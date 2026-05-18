@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Dashboard</title>
+
+    <style>
+        body {
+            font-family: Arial;
+            background: linear-gradient(135deg, #b9c835b0, #20a445, #a4582f);
+            margin: 0;
+            padding: 0;
+        }
+
+        .header {
+            background: #692f78;
+            color: rgb(4, 3, 3);
+            padding: 20px;
+            text-align: center;
+        }
+
+        .btn {
+            background: #0072ff;
+            color: white;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 8px;
+            font-size: 18px;   /* increased font size */
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        .btn:hover {
+            background: #0056cc;
+        }
+
+        .container {
+            padding: 30px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        th, td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background: #236e4f;
+            color: white;
+        }
+
+        tr:hover {
+            background: #f2f2f2;
+        }
+
+        .status {
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="header">
+    <h1>Your Complaints</h1>
+
+    <a href="/submit/">
+        <button class="btn">Submit Complaint</button>
+    </a>
+</div>
+
+<div class="container">
+
+    <table>
+        <tr>
+            <th>Organization</th>
+            <th>Complaint</th>
+            <th>Status</th>
+        </tr>
+
+        {% for c in complaints %}
+        <tr>
+            <td>{{ c.organization }}</td>
+            <td>{{ c.description }}</td>
+            <td class="status">{{ c.status }}</td>
+        </tr>
+        {% endfor %}
+
+    </table>
+
+</div>
+
+</body>
+</html>
